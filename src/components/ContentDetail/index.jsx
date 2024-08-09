@@ -1,29 +1,8 @@
-import { Link } from 'react-router-dom';
-import carousel1 from '../../img/carousel-1.jpg';
-import carousel2 from '../../img/carousel-2.jpg';
-import carousel3 from '../../img/carousel-3.jpg';
-import offer1 from '../../img/offer-1.jpg';
-import offer2 from '../../img/offer-2.jpg';
-import cat1 from '../../img/cat-1.jpg';
-import cat2 from '../../img/cat-2.jpg';
-import cat3 from '../../img/cat-3.jpg';
-import cat4 from '../../img/cat-4.jpg';
 import product1 from '../../img/product-1.jpg';
 import product2 from '../../img/product-2.jpg';
 import product3 from '../../img/product-3.jpg';
 import product4 from '../../img/product-4.jpg';
 import product5 from '../../img/product-5.jpg';
-import product6 from '../../img/product-6.jpg';
-import product7 from '../../img/product-7.jpg';
-import product8 from '../../img/product-8.jpg';
-import vendor1 from '../../img/vendor-1.jpg';
-import vendor2 from '../../img/vendor-2.jpg';
-import vendor3 from '../../img/vendor-3.jpg';
-import vendor4 from '../../img/vendor-4.jpg';
-import vendor5 from '../../img/vendor-5.jpg';
-import vendor6 from '../../img/vendor-6.jpg';
-import vendor7 from '../../img/vendor-7.jpg';
-import vendor8 from '../../img/vendor-8.jpg';
 import user from '../../img/user.jpg';
 
 export const ContentDetail = () => {

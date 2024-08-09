@@ -5,6 +5,7 @@ import './index.css';
 import Home from './templates/Home/Home';
 import Shop from './templates/Shop/Shop';
 import Detail from './templates/Detail/Detail';
+import Cart from './templates/Cart/Cart';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -16,6 +17,7 @@ root.render(
         <Route index element={<Home />} />
         <Route path="/shop" element={<Shop />} />
         <Route path="/detail" element={<Detail />} />
+        <Route path="/cart" element={<Cart />} />
         {/*<Route path="*" element={<NoPage />} />*/}
       </Routes>
     </BrowserRouter>

@@ -1,5 +1,3 @@
-import { Link } from 'react-router-dom';
-
 import carousel1 from '../../img/carousel-1.jpg';
 import carousel2 from '../../img/carousel-2.jpg';
 import carousel3 from '../../img/carousel-3.jpg';
