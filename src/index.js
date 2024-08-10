@@ -6,6 +6,7 @@ import Home from './templates/Home/Home';
 import Shop from './templates/Shop/Shop';
 import Detail from './templates/Detail/Detail';
 import Cart from './templates/Cart/Cart';
+import Checkout from './templates/Checkout/Checkout';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -18,6 +19,7 @@ root.render(
         <Route path="/shop" element={<Shop />} />
         <Route path="/detail" element={<Detail />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
         {/*<Route path="*" element={<NoPage />} />*/}
       </Routes>
     </BrowserRouter>
