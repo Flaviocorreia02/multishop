@@ -8,6 +8,7 @@ import Detail from './templates/Detail/Detail';
 import Cart from './templates/Cart/Cart';
 import Checkout from './templates/Checkout/Checkout';
 import Contact from './templates/Contact/Contact';
+import NoPage from './templates/NoPage/NoPage';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -22,7 +23,7 @@ root.render(
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/contact" element={<Contact />} />
-        {/*<Route path="*" element={<NoPage />} />*/}
+        <Route path="*" element={<NoPage />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
