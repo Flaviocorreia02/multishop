@@ -1,5 +1,6 @@
+import { Link } from 'react-router-dom';
 
-export const ProductList1 = ({Data}) => {
+export const ProductList1 = ({ Data }) => {
     return (
         <>
             {Data.map((item1) => (
@@ -15,7 +16,9 @@ export const ProductList1 = ({Data}) => {
                             </div>
                         </div>
                         <div className="text-center py-4">
-                            <a className="h6 text-decoration-none text-truncate" href="">{item1.nome}</a>
+                            <Link className="h6 text-decoration-none text-truncate" to="/detail" state={{ name: item1.nome, price: item1.preco, description: item1.descricao, img: item1.imagem }}>
+                                {item1.nome}
+                            </Link>
                             <div className="d-flex align-items-center justify-content-center mt-2">
                                 <h5>{item1.preco}</h5><h6 className="text-muted ml-2"><del>{item1.preco}</del></h6>
                             </div>
