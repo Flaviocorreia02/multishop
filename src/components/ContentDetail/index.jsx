@@ -7,13 +7,58 @@ import user from '../../img/user.jpg';
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom'
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 export const ContentDetail = () => {
 
     const location = useLocation()
-    const { name, price, description, img } = location.state
+    const { name, price, description, img } = location.state || ''
     const [Quantity, setQuantity] = useState(1);
+    const [userEmail, setUserEmail] = useState(localStorage.getItem('user-email'));
+    const [link, setLink] = useState("");
+    const [cartExist, setCartExist] = useState([]);
+    const [idCart, setIdCart] = useState('');
 
+
+    useEffect(() => {
+        setUserEmail(localStorage.getItem('user-email'));
+        axios.get(process.env.REACT_APP_URL_API_USER)
+            .then((response) => {
+                const user = response.data;
+
+                const userExist = user.map((users) => {
+                    if (users.email == userEmail) {
+                        return 'exist';
+                    }
+
+                });
+
+                if (userExist.includes('exist')) {
+                    setLink('/cart');
+                } else {
+                    setLink('/login');
+                }
+            });
+
+        axios.get(process.env.REACT_APP_URL_API_CART)
+            .then((response) => {
+                const cart = response.data;
+
+                const cartEmailExist = cart.map((item) => {
+                    if (item.email == userEmail && item.product_name == name)
+                        return 'exist';
+                });
+                
+                const getIdCart = cart.map((item) => {
+                    if (item.email == userEmail && item.product_name == name)
+                        return item.id;
+                });
+                const idFound = getIdCart.find((element) => element != null);
+                setCartExist(cartEmailExist);
+                setIdCart(idFound);
+
+            });
+    }, []);
     const handleQuantityIncrease = (e) => {
         const Qty = Quantity + 1;
         setQuantity(Qty)
@@ -21,6 +66,24 @@ export const ContentDetail = () => {
     const handleQuantityDecrease = (e) => {
         const Qty = Quantity - 1;
         setQuantity(Qty)
+    }
+
+    const handleCart = async (e) => {
+
+        if (cartExist.includes('exist')) {
+            axios.put(process.env.REACT_APP_URL_API_CART+'/'+idCart, { product_name: name, price: price.toString(), quantity: Quantity.toString(), email: userEmail })
+                .then((response) => {
+
+                });
+        } else {
+            axios.post(process.env.REACT_APP_URL_API_CART, { product_name: name, price: price.toString(), quantity: Quantity.toString(), email: userEmail })
+                .then((response) => {
+
+                });
+
+        }
+
+
     }
 
     return (
@@ -82,16 +145,20 @@ export const ContentDetail = () => {
                                             <i className="fa fa-minus"></i>
                                         </button>
                                     </div>
-                                    <input type="text" className="form-control bg-secondary border-0 text-center" value={Quantity} />
+                                    <input type="text" className="form-control bg-secondary border-0 text-center" onChange={handleQuantityIncrease} value={Quantity} />
                                     <div className="input-group-btn">
                                         <button className="btn btn-primary btn-plus" onClick={handleQuantityIncrease}>
                                             <i className="fa fa-plus"></i>
                                         </button>
                                     </div>
                                 </div>
-                                <Link className="btn btn-primary px-3" to="/cart"><i className="fa fa-shopping-cart mr-1"></i> Add To
+                                {link == '/login' && <Link className="btn btn-primary px-3" to={link}><i className="fa fa-shopping-cart mr-1"></i> Add To
                                     Cart
-                                </Link>
+                                </Link>}
+                                {link == '/cart' && <a className="btn btn-primary px-3" href="" onClick={handleCart}><i className="fa fa-shopping-cart mr-1"></i> Add To
+                                    Cart
+                                </a>}
+
                             </div>
                             <div className="d-flex pt-2">
                                 <strong className="text-dark mr-2">Share on:</strong>
@@ -199,19 +266,19 @@ export const ContentDetail = () => {
                                             </div>
                                             <form>
                                                 <div className="form-group">
-                                                    <label for="message">Your Review *</label>
+                                                    <label htmlFor="message">Your Review *</label>
                                                     <textarea id="message" cols="30" rows="5" className="form-control"></textarea>
                                                 </div>
                                                 <div className="form-group">
-                                                    <label for="name">Your Name *</label>
+                                                    <label htmlFor="name">Your Name *</label>
                                                     <input type="text" className="form-control" id="name" />
                                                 </div>
                                                 <div className="form-group">
-                                                    <label for="email">Your Email *</label>
+                                                    <label htmlFor="email">Your Email *</label>
                                                     <input type="email" className="form-control" id="email" />
                                                 </div>
                                                 <div className="form-group mb-0">
-                                                    <input type="submit" value="Leave Your Review" className="btn btn-primary px-3" />
+                                                    <input type="submit" className="btn btn-primary px-3" />
                                                 </div>
                                             </form>
                                         </div>

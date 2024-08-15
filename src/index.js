@@ -8,6 +8,8 @@ import Detail from './templates/Detail/Detail';
 import Cart from './templates/Cart/Cart';
 import Checkout from './templates/Checkout/Checkout';
 import Contact from './templates/Contact/Contact';
+import Login from './templates/Login/Login';
+import Signup from './templates/Signup/Signup';
 import NoPage from './templates/NoPage/NoPage';
 import reportWebVitals from './reportWebVitals';
 
@@ -23,6 +25,8 @@ root.render(
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="*" element={<NoPage />} />
       </Routes>
     </BrowserRouter>

@@ -3,8 +3,36 @@ import product2 from '../../img/product-2.jpg';
 import product3 from '../../img/product-3.jpg';
 import product4 from '../../img/product-4.jpg';
 import product5 from '../../img/product-5.jpg';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom'
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export const ContentCart = () => {
+
+    const [cart, setCart] = useState([]);
+    const location = useLocation()
+    const [Quantity, setQuantity] = useState(1);
+    const navigate = useNavigate();
+    const [dataCart, setDataCart] = useState([]);
+    const [subTotal, setSubtotal] = useState(0);
+
+    useEffect(() => {
+        let subT = 0;
+        axios.get(process.env.REACT_APP_URL_API_CART)
+            .then((response) => {
+                setDataCart(response.data);
+                response.data.map((item) => {
+                    if (item.email == localStorage.getItem('user-email')) {
+                        subT = subT + (parseInt(item.quantity) * parseInt(item.price));
+                        setSubtotal(subT);
+                    }
+                })
+            });
+    }, []);
+
+
     return (
         <>
             {/*<!-- Breadcrumb Start -->*/}
@@ -37,121 +65,63 @@ export const ContentCart = () => {
                                 </tr>
                             </thead>
                             <tbody class="align-middle">
-                                <tr>
-                                    <td class="align-middle"><img src={product1} alt="" style={{width: "50px"}}/> Product Name</td>
-                                    <td class="align-middle">$150</td>
-                                    <td class="align-middle">
-                                        <div class="input-group quantity mx-auto" style={{width: "100px"}}>
-                                            <div class="input-group-btn">
-                                                <button class="btn btn-sm btn-primary btn-minus" >
-                                                    <i class="fa fa-minus"></i>
-                                                </button>
-                                            </div>
-                                            <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center" value="1"/>
-                                                <div class="input-group-btn">
-                                                    <button class="btn btn-sm btn-primary btn-plus">
-                                                        <i class="fa fa-plus"></i>
-                                                    </button>
+                                {dataCart.map((item) => {
+                                    return item.email == localStorage.getItem('user-email') ?
+                                        <tr>
+                                            <td class="align-middle">{item.product_name}</td>
+                                            <td class="align-middle">{item.price}</td>
+                                            <td class="align-middle">
+                                                <div class="input-group quantity mx-auto" style={{ width: "100px" }}>
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-sm btn-primary btn-minus" onClick={() => {
+                                                            const Qty = parseInt(item.quantity) - 1;
+
+                                                            axios.put(process.env.REACT_APP_URL_API_CART + '/' + item.id, { product_name: item.product_name, price: item.price, quantity: Qty.toString(), email: localStorage.getItem('user-email') })
+                                                                .then((response) => {
+                                                                    window.location.reload();
+                                                                });
+                                                        }}>
+                                                            <i class="fa fa-minus"></i>
+                                                        </button>
+                                                    </div>
+                                                    <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center" value={item.quantity} />
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-sm btn-primary btn-plus" onClick={() => {
+                                                            const Qty = parseInt(item.quantity) + 1;
+
+                                                            axios.put(process.env.REACT_APP_URL_API_CART + '/' + item.id, { product_name: item.product_name, price: item.price, quantity: Qty.toString(), email: localStorage.getItem('user-email') })
+                                                                .then((response) => {
+                                                                    window.location.reload();
+                                                                });
+                                                        }}>
+                                                            <i class="fa fa-plus"></i>
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                        </div>
-                                    </td>
-                                    <td class="align-middle">$150</td>
-                                    <td class="align-middle"><button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button></td>
-                                </tr>
-                                <tr>
-                                    <td class="align-middle"><img src={product2} alt="" style={{width: "50px"}}/> Product Name</td>
-                                    <td class="align-middle">$150</td>
-                                    <td class="align-middle">
-                                        <div class="input-group quantity mx-auto" style={{width: "100px"}}>
-                                            <div class="input-group-btn">
-                                                <button class="btn btn-sm btn-primary btn-minus" >
-                                                    <i class="fa fa-minus"></i>
-                                                </button>
-                                            </div>
-                                            <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center" value="1"/>
-                                                <div class="input-group-btn">
-                                                    <button class="btn btn-sm btn-primary btn-plus">
-                                                        <i class="fa fa-plus"></i>
-                                                    </button>
-                                                </div>
-                                        </div>
-                                    </td>
-                                    <td class="align-middle">$150</td>
-                                    <td class="align-middle"><button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button></td>
-                                </tr>
-                                <tr>
-                                    <td class="align-middle"><img src={product3} alt="" style={{width: "50px"}}/> Product Name</td>
-                                    <td class="align-middle">$150</td>
-                                    <td class="align-middle">
-                                        <div class="input-group quantity mx-auto" style={{width: "100px"}}>
-                                            <div class="input-group-btn">
-                                                <button class="btn btn-sm btn-primary btn-minus" >
-                                                    <i class="fa fa-minus"></i>
-                                                </button>
-                                            </div>
-                                            <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center" value="1"/>
-                                                <div class="input-group-btn">
-                                                    <button class="btn btn-sm btn-primary btn-plus">
-                                                        <i class="fa fa-plus"></i>
-                                                    </button>
-                                                </div>
-                                        </div>
-                                    </td>
-                                    <td class="align-middle">$150</td>
-                                    <td class="align-middle"><button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button></td>
-                                </tr>
-                                <tr>
-                                    <td class="align-middle"><img src={product4} alt="" style={{width: "50px"}}/> Product Name</td>
-                                    <td class="align-middle">$150</td>
-                                    <td class="align-middle">
-                                        <div class="input-group quantity mx-auto" style={{width: "100px"}}>
-                                            <div class="input-group-btn">
-                                                <button class="btn btn-sm btn-primary btn-minus" >
-                                                    <i class="fa fa-minus"></i>
-                                                </button>
-                                            </div>
-                                            <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center" value="1"/>
-                                                <div class="input-group-btn">
-                                                    <button class="btn btn-sm btn-primary btn-plus">
-                                                        <i class="fa fa-plus"></i>
-                                                    </button>
-                                                </div>
-                                        </div>
-                                    </td>
-                                    <td class="align-middle">$150</td>
-                                    <td class="align-middle"><button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button></td>
-                                </tr>
-                                <tr>
-                                    <td class="align-middle"><img src={product5} alt="" style={{width: "50px"}}/> Product Name</td>
-                                    <td class="align-middle">$150</td>
-                                    <td class="align-middle">
-                                        <div class="input-group quantity mx-auto" style={{width: "100px"}}>
-                                            <div class="input-group-btn">
-                                                <button class="btn btn-sm btn-primary btn-minus" >
-                                                    <i class="fa fa-minus"></i>
-                                                </button>
-                                            </div>
-                                            <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center" value="1"/>
-                                                <div class="input-group-btn">
-                                                    <button class="btn btn-sm btn-primary btn-plus">
-                                                        <i class="fa fa-plus"></i>
-                                                    </button>
-                                                </div>
-                                        </div>
-                                    </td>
-                                    <td class="align-middle">$150</td>
-                                    <td class="align-middle"><button class="btn btn-sm btn-danger"><i class="fa fa-times"></i></button></td>
-                                </tr>
+                                            </td>
+                                            <td class="align-middle">{parseInt(item.quantity) * parseInt(item.price)}</td>
+                                            <td class="align-middle"><button class="btn btn-sm btn-danger" onClick={() => {
+                                                const Qty = parseInt(item.quantity) + 1;
+
+                                                axios.delete(process.env.REACT_APP_URL_API_CART + '/' + item.id)
+                                                    .then((response) => {
+                                                        window.location.reload();
+                                                    });
+                                            }}><i class="fa fa-times"></i></button></td>
+                                        </tr>
+                                        :
+                                        <tr></tr>
+                                })}
                             </tbody>
                         </table>
                     </div>
                     <div class="col-lg-4">
                         <form class="mb-30" action="">
                             <div class="input-group">
-                                <input type="text" class="form-control border-0 p-4" placeholder="Coupon Code"/>
-                                    <div class="input-group-append">
-                                        <button class="btn btn-primary">Apply Coupon</button>
-                                    </div>
+                                <input type="text" class="form-control border-0 p-4" placeholder="Coupon Code" />
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary">Apply Coupon</button>
+                                </div>
                             </div>
                         </form>
                         <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Cart Summary</span></h5>
@@ -159,7 +129,7 @@ export const ContentCart = () => {
                             <div class="border-bottom pb-2">
                                 <div class="d-flex justify-content-between mb-3">
                                     <h6>Subtotal</h6>
-                                    <h6>$150</h6>
+                                    <h6>${subTotal}</h6>
                                 </div>
                                 <div class="d-flex justify-content-between">
                                     <h6 class="font-weight-medium">Shipping</h6>
@@ -169,9 +139,11 @@ export const ContentCart = () => {
                             <div class="pt-2">
                                 <div class="d-flex justify-content-between mt-2">
                                     <h5>Total</h5>
-                                    <h5>$160</h5>
+                                    <h5>${subTotal + 10}</h5>
                                 </div>
-                                <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">Proceed To Checkout</button>
+                                <Link className="btn btn-block btn-primary font-weight-bold my-3 py-3" to="/checkout">
+                                    Proceed To Checkout
+                                </Link>
                             </div>
                         </div>
                     </div>

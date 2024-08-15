@@ -15,13 +15,7 @@ export const Menu = () => {
                     <div className="navbar-nav mr-auto py-0">
                         <Link className="nav-item nav-link active" to="/">Home</Link>
                         <Link className="nav-item nav-link" to="/shop">Shop</Link>
-                        <div className="nav-item dropdown">
-                            <a href="#" className="nav-link dropdown-toggle" data-toggle="dropdown">Pages <i className="fa fa-angle-down mt-1"></i></a>
-                            <div className="dropdown-menu bg-primary rounded-0 border-0 m-0">
-                                <Link className="dropdown-item" to="/cart">Shopping Cart</Link>
-                                <Link className="dropdown-item" to="/checkout">Checkout</Link>
-                            </div>
-                        </div>
+                        <Link className="nav-item nav-link" to="/cart">Cart</Link>
                         <Link className="nav-item nav-link" to="/contact">Contact</Link>
                     </div>
                     <div className="navbar-nav ml-auto py-0 d-none d-lg-block">

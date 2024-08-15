@@ -1,7 +1,13 @@
 import { Link } from 'react-router-dom';
 import { Menu } from '../../components/Menu';
+import { useNavigate } from 'react-router-dom';
 
 export const Header = () => {
+    const navigate = useNavigate();
+    const handleLogout = (e) => {
+        localStorage.setItem('user-email', '');
+        navigate('/');
+    }
     return (
         <>
             <div className="container-fluid">
@@ -24,20 +30,12 @@ export const Header = () => {
                                 </div>
                             </div>
                             <div className="btn-group mx-2">
-                                <button type="button" className="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">USD</button>
-                                <div className="dropdown-menu dropdown-menu-right">
-                                    <button className="dropdown-item" type="button">EUR</button>
-                                    <button className="dropdown-item" type="button">GBP</button>
-                                    <button className="dropdown-item" type="button">CAD</button>
-                                </div>
-                            </div>
-                            <div className="btn-group">
-                                <button type="button" className="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">EN</button>
-                                <div className="dropdown-menu dropdown-menu-right">
-                                    <button className="dropdown-item" type="button">FR</button>
-                                    <button className="dropdown-item" type="button">AR</button>
-                                    <button className="dropdown-item" type="button">RU</button>
-                                </div>
+                                {localStorage.getItem('user-email') != '' && <>
+                                    <button type="button" className="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">{localStorage.getItem('user-email')}</button>
+                                    <div className="dropdown-menu dropdown-menu-right">
+                                        <button className="dropdown-item" type="button" onClick={handleLogout}>Sair</button>
+                                    </div>
+                                </>}
                             </div>
                         </div>
                         <div className="d-inline-flex align-items-center d-block d-lg-none">

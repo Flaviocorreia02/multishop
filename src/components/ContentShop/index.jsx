@@ -5,6 +5,7 @@ import { ProductList1 } from '../../components/ProductList1';
 import { ProductList2 } from '../../components/ProductList2';
 import { Pagination } from '../../components/Pagination';
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 export const ContentShop = () => {
@@ -15,6 +16,7 @@ export const ContentShop = () => {
     const [filteredProduct2, setFilteredProduct2] = useState(APIData2);
     const [currentPage, setCurrentPage] = useState(1);
     const [postsPerPage, setPostsPerPage] = useState(8);
+    const navigate = useNavigate();
 
     useEffect(() => {
         axios.get(process.env.REACT_APP_URL_API_FORNECEDOR1)
@@ -131,6 +133,10 @@ export const ContentShop = () => {
         setFilteredProduct2(filteredItems2);
 
     }
+    const handleLogout = (e) => {
+        localStorage.setItem('user-email', '');
+        navigate('/');
+    }
     return (
         <>
             <div className="container-fluid">
@@ -146,6 +152,7 @@ export const ContentShop = () => {
                     <div className="col-lg-6 text-center text-lg-right">
                         <div className="d-inline-flex align-items-center">
                             <div className="btn-group">
+                                <a className="text-body mr-3">{localStorage.getItem('user-email')}</a>
                                 <button type="button" className="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">My Account</button>
                                 <div className="dropdown-menu dropdown-menu-right">
                                     <button className="dropdown-item" type="button">Sign in</button>
@@ -153,20 +160,12 @@ export const ContentShop = () => {
                                 </div>
                             </div>
                             <div className="btn-group mx-2">
-                                <button type="button" className="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">USD</button>
-                                <div className="dropdown-menu dropdown-menu-right">
-                                    <button className="dropdown-item" type="button">EUR</button>
-                                    <button className="dropdown-item" type="button">GBP</button>
-                                    <button className="dropdown-item" type="button">CAD</button>
-                                </div>
-                            </div>
-                            <div className="btn-group">
-                                <button type="button" className="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">EN</button>
-                                <div className="dropdown-menu dropdown-menu-right">
-                                    <button className="dropdown-item" type="button">FR</button>
-                                    <button className="dropdown-item" type="button">AR</button>
-                                    <button className="dropdown-item" type="button">RU</button>
-                                </div>
+                            {localStorage.getItem('user-email') != '' && <>
+                                    <button type="button" className="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">{localStorage.getItem('user-email')}</button>
+                                    <div className="dropdown-menu dropdown-menu-right">
+                                        <button className="dropdown-item" type="button" onClick={handleLogout}>Sair</button>
+                                    </div>
+                                </>}   
                             </div>
                         </div>
                         <div className="d-inline-flex align-items-center d-block d-lg-none">
