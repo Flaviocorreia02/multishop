@@ -18,3 +18,6 @@ Você deve construir uma pequena aplicação de ecommerce de acordo com o seguin
 
 -npm i
 -mpm start
+
+### Sign up
+-http://localhost:3000/signup
